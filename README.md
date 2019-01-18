@@ -1,5 +1,7 @@
 ## NumSeq2SQL
 
+DEMO VERSION, CONTINUE TO IMPROVE.
+
 ### Tutorial
 First you should install allennlp and make sure you have downloaded bert pretrained model. </br>
 bert model: https://s3.amazonaws.com/models.huggingface.co/bert/bert-base-multilingual-cased.tar.gz </br>
