@@ -1,6 +1,13 @@
-## NumSeq2SQL for CS280 FINAL
+## NumSeq2SQL
 
 ### Tutorial
+First you should install allennlp and make sure you have downloaded bert pretrained model. </br>
+for train, plean run: </br>
+`allennlp train ./config/numseq2sql.json -s target --include-package numseq2sql` </br>
+To modified the parameters for the model, you can see `config/numseq2sql.json` </br>
+
+### Next
+employ Chinese Tokenization
 
 ### Main Reference
 SQLNet: [https://github.com/xiaojunxu/SQLNet](https://github.com/xiaojunxu/SQLNet) </br>
