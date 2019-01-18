@@ -1,0 +1,127 @@
+{
+  "dataset_reader": {
+    "type": "num_reader",
+    "lazy": true,
+    "tokenizer": {
+      "type": "word",
+      "word_splitter": {
+        "type": "bert-basic"
+      }
+    },
+    "token_indexers": {
+      "bert": {
+        "type": "bert-pretrained",
+        "pretrained_model": "./bert/multi_cased_L-12_H-768_A-12/bert-base-multilingual-cased-vocab.txt",
+       "do_lowercase" : false,
+        "use_starting_offsets": false
+      }
+    }
+  },
+  "iterator": {
+    "type": "bucket",
+    "batch_size": 3,
+    "max_instances_in_memory": 15,
+    "sorting_keys": [
+      [
+        "sentence",
+        "num_fields"
+      ],
+      [
+        "passage",
+        "num_tokens"
+      ]
+    ]
+  },
+  "model": {
+    "type": "numseq2sql",
+    "initializer": [],
+    "dropout": 0.2,
+    "passage_BiLSTM": {
+      "type": "lstm",
+      "bidirectional": true,
+      "input_size": 768,
+      "hidden_size": 100,
+      "num_layers": 1,
+      "dropout": 0.2
+    },
+    "columns_BiLSTM": {
+      "type": "lstm",
+      "bidirectional": true,
+      "input_size": 768,
+      "hidden_size": 100,
+      "num_layers": 1,
+      "dropout": 0.2
+    },
+    "sentence_BiLSTM": {
+      "type": "lstm",
+      "bidirectional": true,
+      "input_size": 768,
+      "hidden_size": 100,
+      "num_layers": 1,
+      "dropout": 0.2
+    },
+    "passage_contextual": {
+      "type": "gru",
+      "bidirectional": true,
+      "input_size": 200,
+      "hidden_size": 100,
+      "num_layers": 1,
+      "dropout": 0.2
+    },
+    "columns_contextual": {
+      "type": "gru",
+      "bidirectional": true,
+      "input_size": 200,
+      "hidden_size": 100,
+      "num_layers": 1,
+      "dropout": 0.2
+    },
+    "sentence_contextual": {
+      "type": "gru",
+      "bidirectional": true,
+      "input_size": 200,
+      "hidden_size": 100,
+      "num_layers": 1,
+      "dropout": 0.2
+    },
+    "embedder": {
+      "pretrained_model": "./bert/multi_cased_L-12_H-768_A-12/bert-base-multilingual-cased.tar.gz"
+    }
+  },
+  "train_data_path": "./data/train_aug.json",
+  "validation_data_path": "./data/validation.json",
+  "trainer": {
+    "cuda_device": 0,
+    "learning_rate_scheduler": {
+      "type": "reduce_on_plateau",
+      "factor": 0.5,
+      "mode": "max",
+      "patience": 3
+    },
+    "num_epochs": 30,
+    "optimizer": {
+      "type": "adam",
+      "lr": 1e-3,
+      "betas": [
+        0.9,
+        0.9
+      ]
+    },
+    "patience": 10
+  },
+  "validation_iterator": {
+    "type": "bucket",
+    "batch_size": 5,
+    "max_instances_in_memory": 5,
+    "sorting_keys": [
+      [
+        "sentence",
+        "num_fields"
+      ],
+      [
+        "passage",
+        "num_tokens"
+      ]
+    ]
+  }
+}
